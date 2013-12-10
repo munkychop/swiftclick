@@ -23,19 +23,19 @@ document.body is easiest if you only need a single instance of SwiftClick:
 Create a reference to a new instance of SwiftClick using the 'attach' helper method and attach it to a context element.
 This approach allows you to create multiple instances of SwiftClick on, for example, specific container elements such as navigation, and also exposes the public API:
 
-    var swiftclick = SwiftClick.attach (some-element);
+    var swiftclick = SwiftClick.attach (someElement);
 
 ####Approach 3
 
 This approach is the same as approach 2, but just uses the 'new' keyword instead of SwiftClick's 'attach' method.
 
-	var swiftclick = new SwiftClick (some-element);
+	var swiftclick = new SwiftClick (someElement);
 		
 
 ####Adding non-default elements
 If necessary you can make SwiftClick track additional element types by adding an array of node names. This requires a reference to an instance of SwiftClick:
 
-    var swiftclick = new SwiftClick (some-element);
+    var swiftclick = new SwiftClick (someElement);
     
     swiftclick.addNodeNamesToTrack (["p", "h1", "nav"]);
 
