@@ -89,7 +89,7 @@ function SwiftClick (contextEl)
 
 	function synthesizeClickEvent ()
 	{
-		// Synthesize a click event, with an extra attribute so it can be tracked
+		// Synthesize a click event.
 		var clickEvent = document.createEvent ("MouseEvents");
 		clickEvent.initMouseEvent ("click", true, true, window, 1, _touchEnd.screenX, _touchEnd.screenY, _touchEnd.clientX, _touchEnd.clientY, false, false, false, false, 0, null);
 		
