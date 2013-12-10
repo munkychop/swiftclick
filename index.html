@@ -1,0 +1,30 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>SwiftClick Example</title>
+
+		<link rel="stylesheet" type="text/css" href="css/app.css">
+	</head>
+
+	<body>
+		<div class="wrapper">
+
+			<div class="test-element">Div</div>
+			<button class="test-element">Button</button>
+			<span class="test-element">Span</span>
+
+			<!-- SwiftClick works for anchor elements by default without the need for an additional JavaScript handler -->
+			<a class="test-element" name="test-anchor" href="#test-anchor">Anchor</a>
+
+			<!--
+				textarea elements are not in SwiftClick's dictionary by default, so will behave with 300ms delay.
+				As is mentioned in the readme, workarounds for these should be implemented seperately from SwiftClick if necessary, as some platforms have obscure bugs.
+			-->
+			<textarea id="testTextArea" class="test-element">Text Area</textarea>
+
+		</div>
+		
+		<script type="text/javascript" src="js/libs/swiftclick.js"></script>
+		<script type="text/javascript" src="js/app/app.js"></script>
+	</body>
+</html>
