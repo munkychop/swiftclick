@@ -16,10 +16,12 @@
 			<!-- SwiftClick works for anchor elements by default without the need for an additional JavaScript handler -->
 			<a class="test-element" name="test-anchor" href="#test-anchor">Anchor</a>
 
-			<!--
-				textarea elements are not in SwiftClick's dictionary by default, so will behave with 300ms delay.
-				As is mentioned in the readme, workarounds for these should be implemented seperately from SwiftClick if necessary, as some platforms have obscure bugs.
-			-->
+			<div class="additional-info">
+				<p class="body-text">textarea elements are not in SwiftClick's dictionary by default, so will behave with 300ms delay.</p>
+				
+				<p class="body-text">workarounds for elements such as textarea should be implemented seperately from SwiftClick if necessary, as some platforms have obscure bugs, but SwiftClick was designed to be lightweight and target basic element types. See the readme for more details.</p>
+			</div>
+
 			<textarea id="testTextArea" class="test-element">Text Area</textarea>
 
 		</div>
