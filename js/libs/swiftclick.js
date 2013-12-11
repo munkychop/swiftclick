@@ -4,6 +4,12 @@
  
 function SwiftClick (contextEl)
 {
+	// if SwiftClick has already been initialised on this element then return the instance that's already in the Dictionary.
+	if (typeof SwiftClick.swiftDictionary[contextEl] !== "undefined") return SwiftClick.swiftDictionary[contextEl];
+
+	// add this instance of SwiftClick to the dictionary using the contextEl as the key.
+	SwiftClick.swiftDictionary[contextEl] = this;
+
 	this.options =
 	{
 		elements: {a:"a", div:"div", span:"span", button:"button"},
@@ -89,7 +95,7 @@ function SwiftClick (contextEl)
 
 	function synthesizeClickEvent ()
 	{
-		// Synthesize a click event.
+		// synthesize a click event.
 		var clickEvent = document.createEvent ("MouseEvents");
 		clickEvent.initMouseEvent ("click", true, true, window, 1, _touchEnd.screenX, _touchEnd.screenY, _touchEnd.clientX, _touchEnd.clientY, false, false, false, false, 0, null);
 		
@@ -107,17 +113,23 @@ function SwiftClick (contextEl)
 		{
 			if (typeof nodeNamesArray[i] !== "string") throw new TypeError ("all values within the 'nodeNames' array must be of type 'string'");
 
-			currentNodeName = nodeNamesArray[i].toLowerCase;
+			currentNodeName = nodeNamesArray[i].toLowerCase ();
 			_self.options.elements[currentNodeName] = currentNodeName;
 		}
 	};
 }
 
-// Use a basic implementation of the composition pattern in order to create new instances of SwiftClick.
-SwiftClick.attach = function (el)
+SwiftClick.swiftDictionary = {};
+
+// use a basic implementation of the composition pattern in order to create new instances of SwiftClick.
+SwiftClick.attach = function (contextEl)
 {
 	"use strict";
-	return new SwiftClick (el);
+
+	// if SwiftClick has already been initialised on this element then return the instance that's already in the Dictionary.
+	if (typeof SwiftClick.swiftDictionary[contextEl] !== "undefined") return SwiftClick.swiftDictionary[contextEl];
+
+	return new SwiftClick (contextEl);
 };
 
 
