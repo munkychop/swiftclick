@@ -4,6 +4,8 @@ SwiftClick is a library created to eliminate the 300ms click event delay on touc
 
 It was designed for basic element types that are typically used in modern interactive development and so obscure bugs found in older browsers for elements such as form, select, and textarea are not a big concern at this time, so workarounds for these should be implemented separately from SwiftClick, if necessary.
 
+###Teeny-tiny
+374 bytes minified & gzipped :-)
 
 ###Usage
 
@@ -31,14 +33,21 @@ This approach is the same as approach 2, but just uses the 'new' keyword instead
 
 	var swiftclick = new SwiftClick (someElement);
 		
+####Default Elements
+Once attached, by default SwiftClick will track events originating from the following element types:
 
-####Adding non-default elements
-If necessary you can make SwiftClick track additional element types by adding an array of node names. This requires a reference to an instance of SwiftClick:
+- a
+- div
+- span
+- button
+
+
+####Adding non-default element types
+If necessary you can make SwiftClick track events originating from additional element types by adding an array of node names. This requires a reference to an instance of SwiftClick:
 
     var swiftclick = new SwiftClick (someElement);
     
     swiftclick.addNodeNamesToTrack (["p", "h1", "nav"]);
-
 
 ####Automatically disabled when not needed
 SwiftClick only intercepts events for touch devices that support orientation change, otherwise it just sits there looking pretty.
