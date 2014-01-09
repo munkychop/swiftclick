@@ -117,6 +117,12 @@ function SwiftClick (contextEl)
 			_self.options.elements[currentNodeName] = currentNodeName;
 		}
 	};
+
+	_self.replaceNodeNamesToTrack = function (nodeNamesArray)
+	{
+		_self.options.elements = {};
+		_self.addNodeNamesToTrack (nodeNamesArray);
+	};
 }
 
 SwiftClick.swiftDictionary = {};
