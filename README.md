@@ -49,6 +49,14 @@ If necessary you can make SwiftClick track events originating from additional el
     
     swiftclick.addNodeNamesToTrack (["p", "h1", "nav"]);
 
+####Replacing all stored element types
+
+		var swiftclick = new SwiftClick (someElement);
+
+		swiftclick.replaceNodeNamesToTrack (["a", "button"]);
+
+Doing this will remove all default node names, as well as any that have been added, and replace them with the node names within the array that is passed in, resulting in only the new node names being tracked.
+
 ####Automatically disabled when not needed
 SwiftClick only intercepts events for touch devices that support orientation change, otherwise it just sits there looking pretty.
 
