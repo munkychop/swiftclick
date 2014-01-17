@@ -13,7 +13,7 @@ function SwiftClick (contextEl)
 	this.options =
 	{
 		elements: {a:"a", div:"div", span:"span", button:"button"},
-		maxTouchDrift: 44
+		maxTouchDrift: 30
 	};
 
 	var _self							= this,
@@ -22,6 +22,7 @@ function SwiftClick (contextEl)
 		_currentSwiftEl					= "undefined",
 		_currentlyTrackingTouch			= false,
 		_touchStartPoint				= {x:0, y:0},
+		_scrollStartPoint			= {x:0, y:0},
 		_touchEnd						= "undefined",
 		_shouldSynthesizeClickEvent		= true;
 
@@ -59,6 +60,7 @@ function SwiftClick (contextEl)
 		// store touchstart positions so we can check for changes later (within touchend handler).
 		_touchStartPoint.x = touch.pageX;
 		_touchStartPoint.y = touch.pageY;
+		_scrollStartPoint = getScrollPoint ();
 
 		// don't synthesize an event if we are already tracking, or if the node is not an acceptable type (the type isn't in the dictionary).
 		if (_currentlyTrackingTouch || typeof _self.options.elements[nodeName] === "undefined")
@@ -73,12 +75,16 @@ function SwiftClick (contextEl)
 
 	function touchEndHandler (event)
 	{
+		event.preventDefault ();
+
 		_touchEnd = event.changedTouches[0];
 
 		// cancel touch if the node type is unacceptable (not in the dictionary), or if the touchpoint position has drifted significantly.
 		if (!_shouldSynthesizeClickEvent ||
 			Math.abs (_touchEnd.pageX - _touchStartPoint.x) > _self.options.maxTouchDrift ||
-			Math.abs (_touchEnd.pageY - _touchStartPoint.y) > _self.options.maxTouchDrift)
+			Math.abs (_touchEnd.pageY - _touchStartPoint.y) > _self.options.maxTouchDrift ||
+			Math.abs (getScrollPoint ().x - _scrollStartPoint.x) > _self.options.maxTouchDrift ||
+			Math.abs (getScrollPoint ().y - _scrollStartPoint.y) > _self.options.maxTouchDrift)
 		{
 			// reset vars to default state before returning early, effectively cancelling the creation of a synthetic click event.
 			_currentlyTrackingTouch = false;
@@ -86,7 +92,6 @@ function SwiftClick (contextEl)
 			return true;
 		}
 
-		event.preventDefault ();
 		_currentSwiftEl.focus (); // TODO : is this working correctly?
 		synthesizeClickEvent ();
 
@@ -100,6 +105,23 @@ function SwiftClick (contextEl)
 		clickEvent.initMouseEvent ("click", true, true, window, 1, _touchEnd.screenX, _touchEnd.screenY, _touchEnd.clientX, _touchEnd.clientY, false, false, false, false, 0, null);
 		
 		_currentSwiftEl.dispatchEvent (clickEvent);
+	}
+
+	function getScrollPoint ()
+	{
+		var scrollPoint = {
+
+			x : window.pageXOffset ||
+				document.body.scrollLeft ||
+				document.documentElement.scrollLeft ||
+				0,
+			y : window.pageYOffset ||
+				document.body.scrollTop ||
+				document.documentElement.scrollTop ||
+				0
+		};
+
+		return scrollPoint;
 	}
 
 	// add an array of node names (strings) for which swift clicks should be synthesized.
