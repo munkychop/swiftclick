@@ -5,7 +5,7 @@ SwiftClick is a library created to eliminate the 300ms click event delay on touc
 It was designed for basic element types that are typically used in modern interactive development and so obscure bugs found in older browsers for elements such as form, select, and textarea are not a big concern at this time, so workarounds for these should be implemented separately from SwiftClick, if necessary.
 
 ###Teeny-tiny
-417 bytes minified & gzipped :-)
+Less than 500 bytes minified & gzipped :-)
 
 ###Usage
 
