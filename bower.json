@@ -6,12 +6,14 @@
     "Ivan Hayes <@munkychop>"
   ],
   "description": "SwiftClick is a library created to eliminate the 300ms click event delay on touch devices that support orientation change.",
-  "main": "js/dist/swiftclick.min.js",
+  "main": ["js/dist/swiftclick.min.js", "js/libs/swiftclick.js"],
   "keywords": [
     "swiftclick",
     "javascript",
     "library",
-    "mobile"
+    "mobile",
+    "fastclick",
+    "tap"
   ],
   "license": "MIT",
   "ignore": [
@@ -23,6 +25,7 @@
     "js/app",
     "js/dist",
     "node_modules",
-    "package.json"
+    "package.json",
+    "license.txt"
   ]
 }
