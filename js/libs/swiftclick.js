@@ -75,8 +75,6 @@ function SwiftClick (contextEl)
 
 	function touchEndHandler (event)
 	{
-		event.preventDefault ();
-
 		_touchEnd = event.changedTouches[0];
 
 		// cancel touch if the node type is unacceptable (not in the dictionary), or if the touchpoint position has drifted significantly.
@@ -91,6 +89,8 @@ function SwiftClick (contextEl)
 			_shouldSynthesizeClickEvent = true;
 			return true;
 		}
+
+		event.preventDefault ();
 
 		_currentSwiftEl.focus (); // TODO : is this working correctly?
 		synthesizeClickEvent ();

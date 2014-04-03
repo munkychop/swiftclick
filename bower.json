@@ -1,6 +1,6 @@
 {
   "name": "swiftclick",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "homepage": "https://github.com/tmwagency/swiftclick",
   "authors": [
     "Ivan Hayes <@munkychop>"
@@ -21,7 +21,7 @@
     "Gruntfile.js",
     "index.html",
     "js/app",
-    "js/libs",
+    "js/dist",
     "node_modules",
     "package.json"
   ]
