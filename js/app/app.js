@@ -16,6 +16,10 @@
 	// regular click handler which simply toggles a CSS class on clicked elements.
 	function elementClicked (event)
 	{
+		event.preventDefault();
+
+		console.log("App:: [elementClicked]");
+
 		var currentElement = event.target,
 			className = currentElement.className;
 
