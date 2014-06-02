@@ -79,6 +79,7 @@ function SwiftClick (contextEl)
 		_currentlyTrackingTouch = true;
 
 		// only add the 'touchend' listener now that we know the element should be tracked.
+		targetEl.removeEventListener("touchend", touchEndHandler, false);
 		targetEl.addEventListener("touchend", touchEndHandler, false);
 	}
 
@@ -94,8 +95,8 @@ function SwiftClick (contextEl)
 
 		// cancel the touch if the node type is unacceptable (not in the dictionary), or if the touchpoint position has drifted significantly.
 		if (!_shouldSynthesizeClickEvent ||
-			Math.abs(_touchEnd.pageX - _touchStartPoint.x) > _self.options.maxTouchDrift ||
-			Math.abs(_touchEnd.pageY - _touchStartPoint.y) > _self.options.maxTouchDrift ||
+			Math.abs(touchend.pageX - _touchStartPoint.x) > _self.options.maxTouchDrift ||
+			Math.abs(touchend.pageY - _touchStartPoint.y) > _self.options.maxTouchDrift ||
 			Math.abs(getScrollPoint().x - _scrollStartPoint.x) > _self.options.maxTouchDrift ||
 			Math.abs(getScrollPoint().y - _scrollStartPoint.y) > _self.options.maxTouchDrift)
 		{
