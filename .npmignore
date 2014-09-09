@@ -1,3 +1,4 @@
+.npmignore
 css
 js/app
 js/dist
