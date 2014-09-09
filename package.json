@@ -8,6 +8,7 @@
     "name": "Ivan Hayes",
     "url": "http://www.ivanhayes.com"
   },
+  "main": "js/libs/swiftclick.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/tmwagency/swiftclick.git"
