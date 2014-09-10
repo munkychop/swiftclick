@@ -2,7 +2,7 @@
   "name": "swiftclick",
   "title": "SwiftClick",
   "description": "Eliminates the 300ms click event delay on touch devices that support orientation change",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "homepage": "https://github.com/tmwagency/swiftclick",
   "author": {
     "name": "Ivan Hayes",
@@ -35,6 +35,5 @@
     "grunt-contrib-uglify": "~0.2.4",
     "grunt-contrib-watch": "~0.5.3",
     "grunt-devtools": "~0.1.0-7"
-  },
-  "keywords": []
+  }
 }
