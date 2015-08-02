@@ -1,6 +1,8 @@
 /*
  * @license MIT License (see license.txt)
  */
+
+ "use strict";
  
 function SwiftClick (contextEl)
 {
@@ -176,37 +178,35 @@ function SwiftClick (contextEl)
 
 		return scrollPoint;
 	}
-
-	// add an array of node names (strings) for which swift clicks should be synthesized.
-	_self.addNodeNamesToTrack = function (nodeNamesArray)
-	{
-		var i = 0,
-			length = nodeNamesArray.length,
-			currentNodeName;
-
-		for (i; i < length; i++)
-		{
-			if (typeof nodeNamesArray[i] !== "string") throw new TypeError ("all values within the 'nodeNames' array must be of type 'string'");
-
-			currentNodeName = nodeNamesArray[i].toLowerCase();
-			_self.options.elements[currentNodeName] = currentNodeName;
-		}
-	};
-
-	_self.replaceNodeNamesToTrack = function (nodeNamesArray)
-	{
-		_self.options.elements = {};
-		_self.addNodeNamesToTrack(nodeNamesArray);
-	};
 }
 
 SwiftClick.swiftDictionary = {};
 
+// add an array of node names (strings) for which swift clicks should be synthesized.
+SwiftClick.prototype.addNodeNamesToTrack = function (nodeNamesArray)
+{
+	var i = 0,
+		length = nodeNamesArray.length,
+		currentNodeName;
+
+	for (i; i < length; i++)
+	{
+		if (typeof nodeNamesArray[i] !== "string") throw new TypeError ("all values within the 'nodeNames' array must be of type 'string'");
+
+		currentNodeName = nodeNamesArray[i].toLowerCase();
+		this.options.elements[currentNodeName] = currentNodeName;
+	}
+};
+
+SwiftClick.prototype.replaceNodeNamesToTrack = function (nodeNamesArray)
+{
+	this.options.elements = {};
+	this.addNodeNamesToTrack(nodeNamesArray);
+};
+
 // use a basic implementation of the composition pattern in order to create new instances of SwiftClick.
 SwiftClick.attach = function (contextEl)
 {
-	"use strict";
-
 	// if SwiftClick has already been initialised on this element then return the instance that's already in the Dictionary.
 	if (typeof SwiftClick.swiftDictionary[contextEl] !== "undefined") return SwiftClick.swiftDictionary[contextEl];
 
@@ -220,7 +220,6 @@ if (typeof define !== "undefined" && define.amd)
 	// AMD. Register as an anonymous module.
 	define (function()
 	{
-		"use strict";
 		return SwiftClick;
 	});
 
