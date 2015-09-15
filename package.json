@@ -2,8 +2,8 @@
   "name": "swiftclick",
   "title": "SwiftClick",
   "description": "Eliminates the 300ms click event delay on touch devices that support orientation change",
-  "version": "1.1.5",
-  "homepage": "https://github.com/tmwagency/swiftclick",
+  "version": "1.1.6",
+  "homepage": "https://github.com/munkychop/swiftclick",
   "author": {
     "name": "Ivan Hayes",
     "url": "http://www.ivanhayes.com"
@@ -11,7 +11,7 @@
   "main": "js/libs/swiftclick.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/tmwagency/swiftclick.git"
+    "url": "git://github.com/munkychop/swiftclick.git"
   },
   "keywords": [
     "swiftclick",
@@ -22,12 +22,8 @@
     "click",
     "delay"
   ],
-  "licenses": [
-  {
-    "type": "MIT",
-    "url": "https://github.com/tmwagency/swiftclick/blob/master/license.txt"
-  }
-],  
+  "private": false,
+  "license": "MIT",
   "dependencies": {},
   "devDependencies": {
     "grunt": "0.4.x",
