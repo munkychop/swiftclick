@@ -4,7 +4,7 @@ SwiftClick is a library created to eliminate the 300ms click event delay on touc
 
 
 ### Teeny-tiny
-Only 957 bytes minified & gzipped :-)
+Less than 1kB bytes minified & gzipped :-)
 
 ## Usage
 
