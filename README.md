@@ -8,7 +8,7 @@ Only 957 bytes minified & gzipped :-)
 
 ## Usage
 
-Firstly, grab either the [minified](https://raw2.github.com/tmwagency/swiftclick/master/js/dist/swiftclick.min.js), or [non-minified](https://raw2.github.com/tmwagency/swiftclick/master/js/libs/swiftclick.js) source from Github.
+Firstly, grab either the [minified](https://raw.githubusercontent.com/munkychop/swiftclick/master/js/dist/swiftclick.min.js), or [non-minified](https://raw.githubusercontent.com/munkychop/swiftclick/master/js/libs/swiftclick.js) source from Github.
 
 Alternatively, if you can use npm with the following command in your command prompt:
 
