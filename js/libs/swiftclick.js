@@ -2,6 +2,8 @@
  * @license MIT License (see license.txt)
  */
  
+"use strict";
+
 function SwiftClick (contextEl)
 {
 	// if SwiftClick has already been initialised on this element then return the instance that's already in the Dictionary.
@@ -34,6 +36,7 @@ function SwiftClick (contextEl)
 
 	function init ()
 	{
+		// console.log("init");
 		// check if the swift el already has a click handler and if so hijack it so it get's fired after SwiftClick's, instead of beforehand.
 		if (typeof _swiftContextElOriginalClick === "function")
 		{
@@ -52,6 +55,7 @@ function SwiftClick (contextEl)
 
 	function touchStartHandler (event)
 	{
+		// console.log("touchStartHandler");
 		var targetEl = event.target,
 			nodeName = targetEl.nodeName.toLowerCase(),
 			touch = event.changedTouches[0];
@@ -70,7 +74,14 @@ function SwiftClick (contextEl)
 		// don't synthesize an event if we are already tracking an element.
 		if (_currentlyTrackingTouch)
 		{
-			_shouldSynthesizeClickEvent = false;
+			// _shouldSynthesizeClickEvent = false;
+			return true;
+		}
+
+		// check parents for 'swiftclick-ignore' attribute.
+		if (checkIfElementShouldBeIgnored(targetEl))
+		{
+			// _shouldSynthesizeClickEvent = false;
 			return true;
 		}
 
@@ -85,6 +96,7 @@ function SwiftClick (contextEl)
 
 	function touchEndHandler (event)
 	{
+		// console.log("touchEndHandler");
 		var targetEl = event.target,
 			touchend,
 			allowFurtherEventsWhenCancellingSyntheticClick = true;
@@ -133,6 +145,7 @@ function SwiftClick (contextEl)
 
 	function clickHandler (event)
 	{
+		// console.log("clickHandler");
 		var targetEl = event.target,
 			nodeName = targetEl.nodeName.toLowerCase();
 
@@ -177,6 +190,49 @@ function SwiftClick (contextEl)
 		return scrollPoint;
 	}
 
+	function checkIfElementShouldBeIgnored (el)
+	{
+		var classToIgnore = "swiftclick-ignore";
+		
+		// return if the el itself has the 'swiftclick-ignore' class.
+		if (hasClass(el, classToIgnore)) return true;
+
+		var parentEl = el.parentNode;
+		var shouldIgnoreElement = false;
+
+		// the topmost element has been reached.
+		if (parentEl === null)
+		{
+			return shouldIgnoreElement;
+		}
+
+		while (parentEl) {
+
+			if (hasClass(parentEl, classToIgnore))
+			{
+				// console.log("el should be ignored due to el:", parentEl);
+
+				parentEl = null;
+				shouldIgnoreElement = true;
+			}
+			else
+			{
+				// console.log("el", parentEl, "not ignored, checking parent...");
+				parentEl = parentEl.parentNode;
+				// console.log("parent is:", parentEl);
+			}
+		}
+
+		return shouldIgnoreElement;
+	}
+
+	function hasClass (el, className) {
+
+		var classExists = typeof el.className !== "undefined" ? (" " + el.className + " ").indexOf(" " + className + " ") > -1 : false;
+		// console.log("[hasClass] class exists?", classExists, "className?", typeof el.className !== "undefined");
+		return classExists;
+	}
+
 	// add an array of node names (strings) for which swift clicks should be synthesized.
 	_self.addNodeNamesToTrack = function (nodeNamesArray)
 	{
@@ -205,8 +261,6 @@ SwiftClick.swiftDictionary = {};
 // use a basic implementation of the composition pattern in order to create new instances of SwiftClick.
 SwiftClick.attach = function (contextEl)
 {
-	"use strict";
-
 	// if SwiftClick has already been initialised on this element then return the instance that's already in the Dictionary.
 	if (typeof SwiftClick.swiftDictionary[contextEl] !== "undefined") return SwiftClick.swiftDictionary[contextEl];
 
@@ -220,7 +274,6 @@ if (typeof define !== "undefined" && define.amd)
 	// AMD. Register as an anonymous module.
 	define (function()
 	{
-		"use strict";
 		return SwiftClick;
 	});
 

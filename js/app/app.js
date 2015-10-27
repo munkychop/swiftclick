@@ -20,19 +20,9 @@
 
 		console.log("App:: [elementClicked]");
 
-		var currentElement = event.target,
-			className = currentElement.className;
+		var currentElement = event.target;
 
-		if (className.indexOf ("bg-colour-change") !== -1)
-		{
-			className = className.replace ("bg-colour-change", "");
-		}
-		else
-		{
-			className = className + " bg-colour-change";
-		}
-
-		currentElement.className = className;
+		currentElement.classList.toggle("bg-colour-change");
 	}
 
 })();
