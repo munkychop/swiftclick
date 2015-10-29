@@ -4,7 +4,7 @@ SwiftClick is a library created to eliminate the 300ms click event delay on touc
 
 
 ### Teeny-tiny
-Less than 1kB bytes minified & gzipped :-)
+~1KB minified & gzipped :-)
 
 
 ## Usage
@@ -14,7 +14,7 @@ Firstly, grab either the [minified](https://raw.githubusercontent.com/munkychop/
 Alternatively, if you can use npm with the following command in your command prompt:
 
 ```sh
-npm install swiftclick --save
+npm i swiftclick --save
 ```
 
 Or you can install via Bower instead, if that's your thing:
