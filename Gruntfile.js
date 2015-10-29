@@ -3,7 +3,8 @@ module.exports = function (grunt) {
 	'use strict';
 
 	var sourceDir = 'js/';
-	var jsFile = 'swiftclick.min.js';
+	var distDir = 'js/dist/';
+	var jsDistFile = 'swiftclick.min.js';
 
 	var jsFilesArray = [sourceDir + 'libs/swiftclick.js'];
 
@@ -12,7 +13,6 @@ module.exports = function (grunt) {
 
 	// Project configuration.
 	grunt.initConfig({
-		pkg: require('./package'),
 
 		watch: {
 
@@ -23,7 +23,7 @@ module.exports = function (grunt) {
 					'js/libs/swiftclick.js'
 				],
 
-				tasks: ['uglify:deploy', 'copy:testLibs']
+				tasks: ['uglify:deploy']
 			}
 		},
 
@@ -44,30 +44,16 @@ module.exports = function (grunt) {
 					report: 'gzip',
 				},
 
-				files: {
-					'js/dist/swiftclick.min.js' : jsFilesArray
-				}
-			}
-		},
-
-		copy: {
-
-			testLibs: {
-				src: 'js/libs/swiftclick.js',
-				dest: 'tests/browser/js/libs/swiftclick.js'
+				src: jsFilesArray,
+				dest: distDir + jsDistFile
 			}
 		}
 	});
 
-	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-devtools');
-
-	// =============
-	// === Tasks ===
-	// =============
 
 	// A task for deployment
 	grunt.registerTask('deploy', ['uglify:deploy']);
+	grunt.registerTask('default', ['deploy']);
 };

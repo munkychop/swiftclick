@@ -55,8 +55,6 @@ function SwiftClick (contextEl)
 
 	function touchStartHandler (event)
 	{
-		console.log("touchStartHandler");
-
 		var targetEl = event.target,
 			nodeName = targetEl.nodeName.toLowerCase(),
 			touch = event.changedTouches[0];
@@ -74,7 +72,7 @@ function SwiftClick (contextEl)
 			return true;
 		}
 
-		// check parents for 'swiftclick-ignore' attribute.
+		// check parents for 'swiftclick-ignore' class name.
 		if (_self.options.useCssParser && checkIfElementShouldBeIgnored(targetEl))
 		{
 			// _shouldSynthesizeClickEvent = false;
@@ -91,8 +89,6 @@ function SwiftClick (contextEl)
 		_touchStartPoint.y = touch.pageY;
 		_scrollStartPoint = getScrollPoint();
 
-		console.log("touchstart:", event.changedTouches[0]);
-
 		// only add the 'touchend' listener now that we know the element should be tracked.
 		targetEl.removeEventListener("touchend", touchEndHandler, false);
 		targetEl.addEventListener("touchend", touchEndHandler, false);
@@ -100,8 +96,6 @@ function SwiftClick (contextEl)
 
 	function touchEndHandler (event)
 	{
-		console.log("[touchEndHandler] targetEl:", event.target);
-
 		var targetEl = event.target,
 			touchend,
 			allowFurtherEventsWhenCancellingSyntheticClick = true;
@@ -117,8 +111,6 @@ function SwiftClick (contextEl)
 			Math.abs(getScrollPoint().x - _scrollStartPoint.x) > _self.options.maxTouchDrift ||
 			Math.abs(getScrollPoint().y - _scrollStartPoint.y) > _self.options.maxTouchDrift)
 		{
-			console.log("cancelling click... touchend:", touchend);
-
 			// stop further events if we are already tracking.
 			if (_currentlyTrackingTouch)
 			{
@@ -152,8 +144,6 @@ function SwiftClick (contextEl)
 
 	function clickHandler (event)
 	{
-		console.log("clickHandler");
-
 		var targetEl = event.target,
 			nodeName = targetEl.nodeName.toLowerCase();
 
@@ -222,16 +212,12 @@ function SwiftClick (contextEl)
 
 			if (hasClass(parentEl, classToIgnore))
 			{
-				console.log("el should be ignored due to el:", parentEl);
-
 				parentEl = null;
 				shouldIgnoreElement = true;
 			}
 			else
 			{
-				// console.log("el", parentEl, "not ignored, checking parent...");
 				parentEl = parentEl.parentNode;
-				// console.log("parent is:", parentEl);
 			}
 		}
 
