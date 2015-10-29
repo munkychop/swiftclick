@@ -6,12 +6,15 @@
 		<link rel="stylesheet" type="text/css" href="css/app.css">
 	</head>
 
-	<body class="swiftclick-ignore">
+	<body>
 		<div class="wrapper">
 
-			<div class="test-element">Div</div>
-			<button class="test-element">Button</button>
-			<span class="test-element">Span</span>
+			<div class="test-element swiftclick-force">Div</div>
+
+			<div class="swiftclick-ignore">
+				<span class="test-element">Span - ignored</span>
+				<button class="test-element swiftclick-force">Button - forced</button>
+			</div>
 
 			<!-- SwiftClick works for anchor elements by default without the need for an additional JavaScript handler -->
 			<a class="test-element" name="test-anchor" href="#test-anchor">Anchor</a>

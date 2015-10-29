@@ -6,6 +6,7 @@ SwiftClick is a library created to eliminate the 300ms click event delay on touc
 ### Teeny-tiny
 Less than 1kB bytes minified & gzipped :-)
 
+
 ## Usage
 
 Firstly, grab either the [minified](https://raw.githubusercontent.com/munkychop/swiftclick/master/js/dist/swiftclick.min.js), or [non-minified](https://raw.githubusercontent.com/munkychop/swiftclick/master/js/libs/swiftclick.js) source from Github.
@@ -22,6 +23,7 @@ Or you can install via Bower instead, if that's your thing:
 bower install swiftclick
 ```
 
+
 ### Include SwiftClick in your application
 ```html
 <script type="application/javascript" src="path/to/swiftclick.min.js"></script>
@@ -32,6 +34,7 @@ If using CommonJS then simply require SwiftClick as per usual:
 ```javascript
 var SwiftClick = require("swiftclick");
 ```
+
 
 ### Setup SwiftClick
 
@@ -50,6 +53,7 @@ var navigationSwiftClick = SwiftClick.attach(someNavElement);
 var uiSwiftClick = SwiftClick.attach(someOtherElement);
 ```
 
+
 ### Default Elements
 Once attached, by default SwiftClick will track events originating from the following element types:
 
@@ -67,6 +71,7 @@ var swiftclick = SwiftClick.attach(someElement);
 swiftclick.addNodeNamesToTrack(["p", "h1", "nav"]);
 ```
 
+
 ### Replacing all stored node names to track
 
 ```js
@@ -75,6 +80,45 @@ swiftclick.replaceNodeNamesToTrack(["a", "div", "h1"]);
 ```
 
 Doing this will remove all default node names, as well as any that have been added, and replace them with the node names within the array that is passed in, resulting in only the new node names being tracked.
+
+
+### Ignoring swift clicks on specific elements
+
+The parsing of CSS class names is disabled by default to improve performance, so in order to use this feature, it must be explicity switched on:
+
+```js
+var swiftclick = SwiftClick.attach(document.body);
+swiftclick.useCssParser(true);
+```
+
+Adding the `swiftclick-ignore` class to an element will disable swift clicks on the element and all off its children:
+
+```html
+<div class="swiftclick-ignore">
+    This element and its children will not get swift clicks.
+</div>
+```
+
+
+### Enabling swift clicks on specific elements within an ignored element
+
+Turn on CSS class name parsing:
+
+```js
+var swiftclick = SwiftClick.attach(document.body);
+swiftclick.useCssParser(true);
+```
+
+Within any element containing the `swiftclick-ignore` class, swift clicks can be enabled for specific child elements by adding the `swiftclick-force` class:
+
+```html
+<div class="swiftclick-ignore">
+    <button>First</button>
+    <button class="swiftclick-force">Second</button>
+</div>
+```
+
+In this example, the first button will not get swift clicks, but the second button will.
 
 
 ### Automatically disabled when not needed

@@ -1,7 +1,7 @@
 /*
  * @license MIT License (see license.txt)
  */
- 
+
 "use strict";
 
 function SwiftClick (contextEl)
@@ -15,7 +15,8 @@ function SwiftClick (contextEl)
 	this.options =
 	{
 		elements: {a:"a", div:"div", span:"span", button:"button"},
-		maxTouchDrift: 30
+		maxTouchDrift: 30,
+		useCssParser: false
 	};
 
 	var _self							= this,
@@ -24,7 +25,7 @@ function SwiftClick (contextEl)
 		_currentlyTrackingTouch			= false,
 		_touchStartPoint				= {x:0, y:0},
 		_scrollStartPoint				= {x:0, y:0},
-		_shouldSynthesizeClickEvent		= true,
+		//_shouldSynthesizeClickEvent		= true,
 		_clickedAlready					= false;
 
 
@@ -36,7 +37,6 @@ function SwiftClick (contextEl)
 
 	function init ()
 	{
-		// console.log("init");
 		// check if the swift el already has a click handler and if so hijack it so it get's fired after SwiftClick's, instead of beforehand.
 		if (typeof _swiftContextElOriginalClick === "function")
 		{
@@ -55,15 +55,11 @@ function SwiftClick (contextEl)
 
 	function touchStartHandler (event)
 	{
-		// console.log("touchStartHandler");
+		console.log("touchStartHandler");
+
 		var targetEl = event.target,
 			nodeName = targetEl.nodeName.toLowerCase(),
 			touch = event.changedTouches[0];
-		
-		// store touchstart positions so we can check for changes later (within touchend handler).
-		_touchStartPoint.x = touch.pageX;
-		_touchStartPoint.y = touch.pageY;
-		_scrollStartPoint = getScrollPoint();
 
 		// don't synthesize an event if the node is not an acceptable type (the type isn't in the dictionary).
 		if (typeof _self.options.elements[nodeName] === "undefined")
@@ -79,15 +75,23 @@ function SwiftClick (contextEl)
 		}
 
 		// check parents for 'swiftclick-ignore' attribute.
-		if (checkIfElementShouldBeIgnored(targetEl))
+		if (_self.options.useCssParser && checkIfElementShouldBeIgnored(targetEl))
 		{
 			// _shouldSynthesizeClickEvent = false;
+			_clickedAlready = false;
 			return true;
 		}
 
 		event.stopPropagation();
 
 		_currentlyTrackingTouch = true;
+
+		// store touchstart positions so we can check for changes later (within touchend handler).
+		_touchStartPoint.x = touch.pageX;
+		_touchStartPoint.y = touch.pageY;
+		_scrollStartPoint = getScrollPoint();
+
+		console.log("touchstart:", event.changedTouches[0]);
 
 		// only add the 'touchend' listener now that we know the element should be tracked.
 		targetEl.removeEventListener("touchend", touchEndHandler, false);
@@ -96,7 +100,8 @@ function SwiftClick (contextEl)
 
 	function touchEndHandler (event)
 	{
-		// console.log("touchEndHandler");
+		console.log("[touchEndHandler] targetEl:", event.target);
+
 		var targetEl = event.target,
 			touchend,
 			allowFurtherEventsWhenCancellingSyntheticClick = true;
@@ -106,12 +111,13 @@ function SwiftClick (contextEl)
 		touchend = event.changedTouches[0];
 
 		// cancel the touch if the node type is unacceptable (not in the dictionary), or if the touchpoint position has drifted significantly.
-		if (!_shouldSynthesizeClickEvent ||
+		if (//!_shouldSynthesizeClickEvent ||
 			Math.abs(touchend.pageX - _touchStartPoint.x) > _self.options.maxTouchDrift ||
 			Math.abs(touchend.pageY - _touchStartPoint.y) > _self.options.maxTouchDrift ||
 			Math.abs(getScrollPoint().x - _scrollStartPoint.x) > _self.options.maxTouchDrift ||
 			Math.abs(getScrollPoint().y - _scrollStartPoint.y) > _self.options.maxTouchDrift)
 		{
+			console.log("cancelling click... touchend:", touchend);
 
 			// stop further events if we are already tracking.
 			if (_currentlyTrackingTouch)
@@ -123,7 +129,7 @@ function SwiftClick (contextEl)
 
 			// reset vars to default state before returning early, effectively cancelling the creation of a synthetic click event.
 			_currentlyTrackingTouch = false;
-			_shouldSynthesizeClickEvent = true;
+			//_shouldSynthesizeClickEvent = true;
 			return allowFurtherEventsWhenCancellingSyntheticClick;
 		}
 
@@ -136,16 +142,18 @@ function SwiftClick (contextEl)
 		targetEl.focus();
 		synthesizeClickEvent(targetEl, touchend);
 
-		// reset vars to default state before returning early, effectively cancelling the creation of a synthetic click event.
+		// reset vars to default state.
 		_currentlyTrackingTouch = false;
-		_shouldSynthesizeClickEvent = true;
+		//_shouldSynthesizeClickEvent = true;
 
+		// return false in order to surpress the regular click event.
 		return false;
 	}
 
 	function clickHandler (event)
 	{
-		// console.log("clickHandler");
+		console.log("clickHandler");
+
 		var targetEl = event.target,
 			nodeName = targetEl.nodeName.toLowerCase();
 
@@ -193,12 +201,15 @@ function SwiftClick (contextEl)
 	function checkIfElementShouldBeIgnored (el)
 	{
 		var classToIgnore = "swiftclick-ignore";
-		
-		// return if the el itself has the 'swiftclick-ignore' class.
-		if (hasClass(el, classToIgnore)) return true;
-
+		var classToForceClick = "swiftclick-force";
 		var parentEl = el.parentNode;
 		var shouldIgnoreElement = false;
+		
+		// ignore the target el and return early if it has the 'swiftclick-ignore' class.
+		if (hasClass(el, classToIgnore)) return true;
+
+		// don't ignore the target el and return early if it has the 'swiftclick-force' class.
+		if (hasClass(el, classToForceClick)) return shouldIgnoreElement;
 
 		// the topmost element has been reached.
 		if (parentEl === null)
@@ -206,11 +217,12 @@ function SwiftClick (contextEl)
 			return shouldIgnoreElement;
 		}
 
+		// ignore the target el if one of its parents has the 'swiftclick-ignore' class.
 		while (parentEl) {
 
 			if (hasClass(parentEl, classToIgnore))
 			{
-				// console.log("el should be ignored due to el:", parentEl);
+				console.log("el should be ignored due to el:", parentEl);
 
 				parentEl = null;
 				shouldIgnoreElement = true;
@@ -229,34 +241,39 @@ function SwiftClick (contextEl)
 	function hasClass (el, className) {
 
 		var classExists = typeof el.className !== "undefined" ? (" " + el.className + " ").indexOf(" " + className + " ") > -1 : false;
-		// console.log("[hasClass] class exists?", classExists, "className?", typeof el.className !== "undefined");
+
 		return classExists;
 	}
-
-	// add an array of node names (strings) for which swift clicks should be synthesized.
-	_self.addNodeNamesToTrack = function (nodeNamesArray)
-	{
-		var i = 0,
-			length = nodeNamesArray.length,
-			currentNodeName;
-
-		for (i; i < length; i++)
-		{
-			if (typeof nodeNamesArray[i] !== "string") throw new TypeError ("all values within the 'nodeNames' array must be of type 'string'");
-
-			currentNodeName = nodeNamesArray[i].toLowerCase();
-			_self.options.elements[currentNodeName] = currentNodeName;
-		}
-	};
-
-	_self.replaceNodeNamesToTrack = function (nodeNamesArray)
-	{
-		_self.options.elements = {};
-		_self.addNodeNamesToTrack(nodeNamesArray);
-	};
 }
 
 SwiftClick.swiftDictionary = {};
+
+// add an array of node names (strings) for which swift clicks should be synthesized.
+SwiftClick.prototype.addNodeNamesToTrack = function (nodeNamesArray)
+{
+	var i = 0,
+		length = nodeNamesArray.length,
+		currentNodeName;
+
+	for (i; i < length; i++)
+	{
+		if (typeof nodeNamesArray[i] !== "string") throw new TypeError ("all values within the 'nodeNames' array must be of type 'string'");
+
+		currentNodeName = nodeNamesArray[i].toLowerCase();
+		this.options.elements[currentNodeName] = currentNodeName;
+	}
+};
+
+SwiftClick.prototype.replaceNodeNamesToTrack = function (nodeNamesArray)
+{
+	this.options.elements = {};
+	this.addNodeNamesToTrack(nodeNamesArray);
+};
+
+SwiftClick.prototype.useCssParser = function (useParser)
+{
+	this.options.useCssParser = useParser;
+};
 
 // use a basic implementation of the composition pattern in order to create new instances of SwiftClick.
 SwiftClick.attach = function (contextEl)

@@ -1,6 +1,9 @@
 (function ()
 {
-	SwiftClick.attach (document.body);
+	"use strict";
+
+	var swiftclick = window.SwiftClick.attach(document.body);
+	swiftclick.useCssParser(true);
 
 	// add regular click listeners to all elements with a class of 'test-element'.
 	var testElements = document.getElementsByClassName("test-element"),
