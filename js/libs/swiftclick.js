@@ -103,6 +103,8 @@ function SwiftClick (contextEl)
 
 		touchend = event.changedTouches[0];
 
+		_clickedAlready = false;
+
 		// bail out if the touchpoint position has drifted significantly, user is not trying to click.
 		if (
 			Math.abs(touchend.pageX - _touchStartPoint.x) > _self.options.maxTouchDrift ||
@@ -116,8 +118,6 @@ function SwiftClick (contextEl)
 		// prevent default actions and create the synthetic click event before returning false.
 		event.stopPropagation();
 		event.preventDefault();
-
-		_clickedAlready = false;
 
 		targetEl.focus();
 		synthesizeClickEvent(targetEl, touchend);
