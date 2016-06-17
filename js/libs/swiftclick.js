@@ -156,8 +156,8 @@ function SwiftClick (contextEl)
 
     function getScrollPoint ()
     {
-        var scrollPoint = {
-
+        var scrollPoint =
+        {
             x : window.pageXOffset ||
                 document.body.scrollLeft ||
                 document.documentElement.scrollLeft ||
@@ -179,10 +179,16 @@ function SwiftClick (contextEl)
         var shouldIgnoreElement = false;
         
         // ignore the target el and return early if it has the 'swiftclick-ignore' class.
-        if (hasClass(el, classToIgnore)) return true;
+        if (hasClass(el, classToIgnore))
+        {
+            return true;
+        }
 
         // don't ignore the target el and return early if it has the 'swiftclick-force' class.
-        if (hasClass(el, classToForceClick)) return shouldIgnoreElement;
+        if (hasClass(el, classToForceClick))
+        {
+            return shouldIgnoreElement;
+        }
 
         // the topmost element has been reached.
         if (parentEl === null)
@@ -191,8 +197,8 @@ function SwiftClick (contextEl)
         }
 
         // ignore the target el if one of its parents has the 'swiftclick-ignore' class.
-        while (parentEl) {
-
+        while (parentEl)
+        {
             if (hasClass(parentEl, classToIgnore))
             {
                 parentEl = null;
@@ -226,7 +232,10 @@ SwiftClick.prototype.addNodeNamesToTrack = function (nodeNamesArray)
 
     for (i; i < length; i++)
     {
-        if (typeof nodeNamesArray[i] !== "string") throw new TypeError ("all values within the 'nodeNames' array must be of type 'string'");
+        if (typeof nodeNamesArray[i] !== "string")
+        {
+            throw new TypeError ("all values within the 'nodeNames' array must be of type 'string'");
+        }
 
         currentNodeName = nodeNamesArray[i].toLowerCase();
         this.options.elements[currentNodeName] = currentNodeName;
@@ -248,7 +257,10 @@ SwiftClick.prototype.useCssParser = function (useParser)
 SwiftClick.attach = function (contextEl)
 {
     // if SwiftClick has already been initialised on this element then return the instance that's already in the Dictionary.
-    if (typeof SwiftClick.swiftDictionary[contextEl] !== "undefined") return SwiftClick.swiftDictionary[contextEl];
+    if (typeof SwiftClick.swiftDictionary[contextEl] !== "undefined")
+    {
+        return SwiftClick.swiftDictionary[contextEl];
+    }
 
     return new SwiftClick(contextEl);
 };
