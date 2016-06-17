@@ -99,11 +99,11 @@ function SwiftClick (contextEl)
 		var targetEl = event.target,
 			touchend;
 
+		_currentlyTrackingTouch = false;
+
 		targetEl.removeEventListener("touchend", touchEndHandler, false);
 
 		touchend = event.changedTouches[0];
-
-		_clickedAlready = false;
 
 		// bail out if the touchpoint position has drifted significantly, user is not trying to click.
 		if (
@@ -119,12 +119,10 @@ function SwiftClick (contextEl)
 		event.stopPropagation();
 		event.preventDefault();
 
+		_clickedAlready = false;
+
 		targetEl.focus();
 		synthesizeClickEvent(targetEl, touchend);
-
-		// reset vars to default state.
-		_currentlyTrackingTouch = false;
-		//_shouldSynthesizeClickEvent = true;
 
 		// return false in order to surpress the regular click event.
 		return false;
