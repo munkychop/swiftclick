@@ -97,32 +97,22 @@ function SwiftClick (contextEl)
 	function touchEndHandler (event)
 	{
 		var targetEl = event.target,
-			touchend,
-			allowFurtherEventsWhenCancellingSyntheticClick = true;
+			touchend;
+
+		_currentlyTrackingTouch = false;
 
 		targetEl.removeEventListener("touchend", touchEndHandler, false);
 
 		touchend = event.changedTouches[0];
 
-		// cancel the touch if the node type is unacceptable (not in the dictionary), or if the touchpoint position has drifted significantly.
-		if (//!_shouldSynthesizeClickEvent ||
+		// bail out if the touchpoint position has drifted significantly, user is not trying to click.
+		if (
 			Math.abs(touchend.pageX - _touchStartPoint.x) > _self.options.maxTouchDrift ||
 			Math.abs(touchend.pageY - _touchStartPoint.y) > _self.options.maxTouchDrift ||
 			Math.abs(getScrollPoint().x - _scrollStartPoint.x) > _self.options.maxTouchDrift ||
 			Math.abs(getScrollPoint().y - _scrollStartPoint.y) > _self.options.maxTouchDrift)
 		{
-			// stop further events if we are already tracking.
-			if (_currentlyTrackingTouch)
-			{
-				event.stopPropagation();
-				event.preventDefault();
-				allowFurtherEventsWhenCancellingSyntheticClick = false;
-			}
-
-			// reset vars to default state before returning early, effectively cancelling the creation of a synthetic click event.
-			_currentlyTrackingTouch = false;
-			//_shouldSynthesizeClickEvent = true;
-			return allowFurtherEventsWhenCancellingSyntheticClick;
+			return true;
 		}
 
 		// prevent default actions and create the synthetic click event before returning false.
@@ -133,10 +123,6 @@ function SwiftClick (contextEl)
 
 		targetEl.focus();
 		synthesizeClickEvent(targetEl, touchend);
-
-		// reset vars to default state.
-		_currentlyTrackingTouch = false;
-		//_shouldSynthesizeClickEvent = true;
 
 		// return false in order to surpress the regular click event.
 		return false;
