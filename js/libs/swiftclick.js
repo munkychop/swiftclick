@@ -19,14 +19,14 @@ function SwiftClick (contextEl)
         useCssParser: false
     };
 
-    var _self                           = this,
-        _swiftContextEl                 = contextEl,
-        _swiftContextElOriginalClick    = _swiftContextEl.onclick,
-        _currentlyTrackingTouch         = false,
-        _touchStartPoint                = {x:0, y:0},
-        _scrollStartPoint               = {x:0, y:0},
-        //_shouldSynthesizeClickEvent       = true,
-        _clickedAlready                 = false;
+        var _self                           = this;
+        var _swiftContextEl                 = contextEl;
+        var _swiftContextElOriginalClick    = _swiftContextEl.onclick;
+        var _currentlyTrackingTouch         = false;
+        var _touchStartPoint                = {x:0, y:0};
+        var _scrollStartPoint               = {x:0, y:0};
+        //_shouldSynthesizeClickEvent       = true;
+        var _clickedAlready                 = false;
 
 
     // SwiftClick is only initialised if both touch and orientationchange are supported.
@@ -55,9 +55,9 @@ function SwiftClick (contextEl)
 
     function touchStartHandler (event)
     {
-        var targetEl = event.target,
-            nodeName = targetEl.nodeName.toLowerCase(),
-            touch = event.changedTouches[0];
+        var targetEl = event.target;
+        var nodeName = targetEl.nodeName.toLowerCase();
+        var touch = event.changedTouches[0];
 
         // don't synthesize an event if the node is not an acceptable type (the type isn't in the dictionary).
         if (typeof _self.options.elements[nodeName] === "undefined")
@@ -96,8 +96,8 @@ function SwiftClick (contextEl)
 
     function touchEndHandler (event)
     {
-        var targetEl = event.target,
-            touchend;
+        var targetEl = event.target;
+        var touchend;
 
         _currentlyTrackingTouch = false;
 
@@ -130,8 +130,8 @@ function SwiftClick (contextEl)
 
     function clickHandler (event)
     {
-        var targetEl = event.target,
-            nodeName = targetEl.nodeName.toLowerCase();
+        var targetEl = event.target;
+        var nodeName = targetEl.nodeName.toLowerCase();
 
         if (typeof _self.options.elements[nodeName] !== "undefined")
         {
@@ -223,9 +223,9 @@ SwiftClick.swiftDictionary = {};
 // add an array of node names (strings) for which swift clicks should be synthesized.
 SwiftClick.prototype.addNodeNamesToTrack = function (nodeNamesArray)
 {
-    var i = 0,
-        length = nodeNamesArray.length,
-        currentNodeName;
+    var i = 0;
+    var length = nodeNamesArray.length;
+    var currentNodeName;
 
     for (i; i < length; i++)
     {
