@@ -94,13 +94,11 @@ function SwiftClick (contextEl)
     function touchEndHandler (event)
     {
         var targetEl = event.target;
-        var touchend;
-
-        _currentlyTrackingTouch = false;
+        var touchend = event.changedTouches[0];
 
         targetEl.removeEventListener('touchend', touchEndHandler, false);
-
-        touchend = event.changedTouches[0];
+        
+        _currentlyTrackingTouch = false;
 
         // don't synthesize a click event if the touchpoint position has drifted significantly, as the user is not trying to click.
         if (hasTouchDriftedTooFar(touchend))
@@ -108,7 +106,7 @@ function SwiftClick (contextEl)
             return true;
         }
 
-        // prevent default actions and create the synthetic click event before returning false.
+        // prevent default actions and create a synthetic click event before returning false.
         event.stopPropagation();
         event.preventDefault();
 
@@ -143,7 +141,6 @@ function SwiftClick (contextEl)
 
     function synthesizeClickEvent (el, touchend)
     {
-        // synthesize a click event.
         var clickEvent = document.createEvent('MouseEvents');
         clickEvent.initMouseEvent('click', true, true, window, 1, touchend.screenX, touchend.screenY, touchend.clientX, touchend.clientY, false, false, false, false, 0, null);
         
