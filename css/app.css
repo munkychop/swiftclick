@@ -17,11 +17,7 @@ html, body {
     font-family: Helvetica, Arial, sans-serif;
     cursor: pointer;
     white-space: normal;
-
-    -moz-user-select: -moz-none;
-    -khtml-user-select: none;
     -webkit-user-select: none;
-    -o-user-select: none;
     user-select: none;
 }
 
