@@ -102,12 +102,8 @@ function SwiftClick (contextEl)
 
         touchend = event.changedTouches[0];
 
-        // bail out if the touchpoint position has drifted significantly, user is not trying to click.
-        if (
-            Math.abs(touchend.pageX - _touchStartPoint.x) > _self.options.maxTouchDrift ||
-            Math.abs(touchend.pageY - _touchStartPoint.y) > _self.options.maxTouchDrift ||
-            Math.abs(getScrollPoint().x - _scrollStartPoint.x) > _self.options.maxTouchDrift ||
-            Math.abs(getScrollPoint().y - _scrollStartPoint.y) > _self.options.maxTouchDrift)
+        // don't synthesize a click event if the touchpoint position has drifted significantly, as the user is not trying to click.
+        if (hasTouchDriftedTooFar(touchend))
         {
             return true;
         }
@@ -211,6 +207,17 @@ function SwiftClick (contextEl)
         }
 
         return shouldIgnoreElement;
+    }
+
+    function hasTouchDriftedTooFar (touchend)
+    {
+        var maxDrift = _self.options.maxTouchDrift;
+        var scrollPoint = getScrollPoint();
+
+        return  Math.abs(touchend.pageX - _touchStartPoint.x) > maxDrift ||
+                Math.abs(touchend.pageY - _touchStartPoint.y) > maxDrift ||
+                Math.abs(scrollPoint.x - _scrollStartPoint.x) > maxDrift ||
+                Math.abs(scrollPoint.y - _scrollStartPoint.y) > maxDrift;
     }
 
     function hasClass (el, className) {
