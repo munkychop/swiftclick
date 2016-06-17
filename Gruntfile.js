@@ -1,59 +1,59 @@
 module.exports = function (grunt) {
 
-	'use strict';
+    'use strict';
 
-	var sourceDir = 'js/';
-	var distDir = 'js/dist/';
-	var jsDistFile = 'swiftclick.min.js';
+    var sourceDir = 'js/';
+    var distDir = 'js/dist/';
+    var jsDistFile = 'swiftclick.min.js';
 
-	var jsFilesArray = [sourceDir + 'libs/swiftclick.js'];
+    var jsFilesArray = [sourceDir + 'libs/swiftclick.js'];
 
-	// ====================
-	// ====================
+    // ====================
+    // ====================
 
-	// Project configuration.
-	grunt.initConfig({
+    // Project configuration.
+    grunt.initConfig({
 
-		watch: {
+        watch: {
 
-			js: {
-				files: [
-					'Gruntfile.js',
-					'js/app/app.js',
-					'js/libs/swiftclick.js'
-				],
+            js: {
+                files: [
+                    'Gruntfile.js',
+                    'js/app/app.js',
+                    'js/libs/swiftclick.js'
+                ],
 
-				tasks: ['uglify:deploy']
-			}
-		},
+                tasks: ['uglify:deploy']
+            }
+        },
 
-		uglify: {
+        uglify: {
 
-			deploy: {
-				options: {
+            deploy: {
+                options: {
 
-					compress: true,
+                    compress: true,
 
-					// mangle: Turn on or off mangling
-					mangle: true,
+                    // mangle: Turn on or off mangling
+                    mangle: true,
 
-					// beautify: beautify your code for debugging/troubleshooting purposes
-					beautify: false,
+                    // beautify: beautify your code for debugging/troubleshooting purposes
+                    beautify: false,
 
-					// report: Show file size report
-					report: 'gzip',
-				},
+                    // report: Show file size report
+                    report: 'gzip',
+                },
 
-				src: jsFilesArray,
-				dest: distDir + jsDistFile
-			}
-		}
-	});
+                src: jsFilesArray,
+                dest: distDir + jsDistFile
+            }
+        }
+    });
 
-	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
-	// A task for deployment
-	grunt.registerTask('deploy', ['uglify:deploy']);
-	grunt.registerTask('default', ['deploy']);
+    // A task for deployment
+    grunt.registerTask('deploy', ['uglify:deploy']);
+    grunt.registerTask('default', ['deploy']);
 };

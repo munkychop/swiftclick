@@ -1,35 +1,35 @@
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>SwiftClick Example</title>
+    <head>
+        <meta charset="UTF-8">
+        <title>SwiftClick Example</title>
 
-		<link rel="stylesheet" type="text/css" href="css/app.css">
-	</head>
+        <link rel="stylesheet" type="text/css" href="css/app.css">
+    </head>
 
-	<body>
-		<div class="wrapper">
+    <body>
+        <div class="wrapper">
 
-			<div class="test-element swiftclick-force">Div</div>
+            <div class="test-element swiftclick-force">Div</div>
 
-			<div class="swiftclick-ignore">
-				<span class="test-element">Span - ignored</span>
-				<button class="test-element swiftclick-force">Button - forced</button>
-			</div>
+            <div class="swiftclick-ignore">
+                <span class="test-element">Span - ignored</span>
+                <button class="test-element swiftclick-force">Button - forced</button>
+            </div>
 
-			<!-- SwiftClick works for anchor elements by default without the need for an additional JavaScript handler -->
-			<a class="test-element" name="test-anchor" href="#test-anchor">Anchor</a>
+            <!-- SwiftClick works for anchor elements by default without the need for an additional JavaScript handler -->
+            <a class="test-element" name="test-anchor" href="#test-anchor">Anchor</a>
 
-			<div class="additional-info">
-				<p class="body-text">textarea elements are not in SwiftClick's dictionary by default, so will behave with 300ms delay.</p>
-				
-				<p class="body-text">workarounds for elements such as textarea should be implemented seperately from SwiftClick if necessary, as some platforms have obscure bugs, but SwiftClick was designed to be lightweight and target basic element types. See the readme for more details.</p>
-			</div>
+            <div class="additional-info">
+                <p class="body-text">textarea elements are not in SwiftClick's dictionary by default, so will behave with 300ms delay.</p>
+                
+                <p class="body-text">workarounds for elements such as textarea should be implemented seperately from SwiftClick if necessary, as some platforms have obscure bugs, but SwiftClick was designed to be lightweight and target basic element types. See the readme for more details.</p>
+            </div>
 
-			<textarea id="testTextArea" class="test-element">Text Area</textarea>
+            <textarea id="testTextArea" class="test-element">Text Area</textarea>
 
-		</div>
-		
-		<script type="text/javascript" src="js/libs/swiftclick.js"></script>
-		<script type="text/javascript" src="js/app/app.js"></script>
-	</body>
+        </div>
+        
+        <script type="text/javascript" src="js/libs/swiftclick.js"></script>
+        <script type="text/javascript" src="js/app/app.js"></script>
+    </body>
 </html>
