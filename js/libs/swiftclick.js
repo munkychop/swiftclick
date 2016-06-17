@@ -25,7 +25,6 @@ function SwiftClick (contextEl)
         var _currentlyTrackingTouch         = false;
         var _touchStartPoint                = {x:0, y:0};
         var _scrollStartPoint               = {x:0, y:0};
-        //_shouldSynthesizeClickEvent       = true;
         var _clickedAlready                 = false;
 
 
@@ -68,14 +67,12 @@ function SwiftClick (contextEl)
         // don't synthesize an event if we are already tracking an element.
         if (_currentlyTrackingTouch)
         {
-            // _shouldSynthesizeClickEvent = false;
             return true;
         }
 
         // check parents for 'swiftclick-ignore' class name.
         if (_self.options.useCssParser && checkIfElementShouldBeIgnored(targetEl))
         {
-            // _shouldSynthesizeClickEvent = false;
             _clickedAlready = false;
             return true;
         }
