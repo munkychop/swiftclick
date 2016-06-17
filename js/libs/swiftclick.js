@@ -2,19 +2,19 @@
  * @license MIT License (see license.txt)
  */
 
-"use strict";
+'use strict';
 
 function SwiftClick (contextEl)
 {
     // if SwiftClick has already been initialised on this element then return the instance that's already in the Dictionary.
-    if (typeof SwiftClick.swiftDictionary[contextEl] !== "undefined") return SwiftClick.swiftDictionary[contextEl];
+    if (typeof SwiftClick.swiftDictionary[contextEl] !== 'undefined') return SwiftClick.swiftDictionary[contextEl];
 
     // add this instance of SwiftClick to the dictionary using the contextEl as the key.
     SwiftClick.swiftDictionary[contextEl] = this;
 
     this.options =
     {
-        elements: {a:"a", div:"div", span:"span", button:"button"},
+        elements: {a:'a', div:'div', span:'span', button:'button'},
         maxTouchDrift: 30,
         useCssParser: false
     };
@@ -29,7 +29,7 @@ function SwiftClick (contextEl)
 
 
     // SwiftClick is only initialised if both touch and orientationchange are supported.
-    if ("onorientationchange" in window && "ontouchstart" in window)
+    if ('onorientationchange' in window && 'ontouchstart' in window)
     {
         init();
     }
@@ -37,14 +37,14 @@ function SwiftClick (contextEl)
     function init ()
     {
         // check if the swift el already has a click handler and if so hijack it so it get's fired after SwiftClick's, instead of beforehand.
-        if (typeof _swiftContextElOriginalClick === "function")
+        if (typeof _swiftContextElOriginalClick === 'function')
         {
-            _swiftContextEl.addEventListener("click", hijackedSwiftElClickHandler, false);
+            _swiftContextEl.addEventListener('click', hijackedSwiftElClickHandler, false);
             _swiftContextEl.onclick = null;
         }
 
-        _swiftContextEl.addEventListener("touchstart", touchStartHandler, false);
-        _swiftContextEl.addEventListener("click", clickHandler, true);
+        _swiftContextEl.addEventListener('touchstart', touchStartHandler, false);
+        _swiftContextEl.addEventListener('click', clickHandler, true);
     }
 
     function hijackedSwiftElClickHandler (event)
@@ -59,7 +59,7 @@ function SwiftClick (contextEl)
         var touch = event.changedTouches[0];
 
         // don't synthesize an event if the node is not an acceptable type (the type isn't in the dictionary).
-        if (typeof _self.options.elements[nodeName] === "undefined")
+        if (typeof _self.options.elements[nodeName] === 'undefined')
         {
             return true;
         }
@@ -87,8 +87,8 @@ function SwiftClick (contextEl)
         _scrollStartPoint = getScrollPoint();
 
         // only add the 'touchend' listener now that we know the element should be tracked.
-        targetEl.removeEventListener("touchend", touchEndHandler, false);
-        targetEl.addEventListener("touchend", touchEndHandler, false);
+        targetEl.removeEventListener('touchend', touchEndHandler, false);
+        targetEl.addEventListener('touchend', touchEndHandler, false);
     }
 
     function touchEndHandler (event)
@@ -98,7 +98,7 @@ function SwiftClick (contextEl)
 
         _currentlyTrackingTouch = false;
 
-        targetEl.removeEventListener("touchend", touchEndHandler, false);
+        targetEl.removeEventListener('touchend', touchEndHandler, false);
 
         touchend = event.changedTouches[0];
 
@@ -130,7 +130,7 @@ function SwiftClick (contextEl)
         var targetEl = event.target;
         var nodeName = targetEl.nodeName.toLowerCase();
 
-        if (typeof _self.options.elements[nodeName] !== "undefined")
+        if (typeof _self.options.elements[nodeName] !== 'undefined')
         {
             if (_clickedAlready)
             {
@@ -148,8 +148,8 @@ function SwiftClick (contextEl)
     function synthesizeClickEvent (el, touchend)
     {
         // synthesize a click event.
-        var clickEvent = document.createEvent("MouseEvents");
-        clickEvent.initMouseEvent("click", true, true, window, 1, touchend.screenX, touchend.screenY, touchend.clientX, touchend.clientY, false, false, false, false, 0, null);
+        var clickEvent = document.createEvent('MouseEvents');
+        clickEvent.initMouseEvent('click', true, true, window, 1, touchend.screenX, touchend.screenY, touchend.clientX, touchend.clientY, false, false, false, false, 0, null);
         
         el.dispatchEvent(clickEvent);
     }
@@ -173,8 +173,8 @@ function SwiftClick (contextEl)
 
     function checkIfElementShouldBeIgnored (el)
     {
-        var classToIgnore = "swiftclick-ignore";
-        var classToForceClick = "swiftclick-force";
+        var classToIgnore = 'swiftclick-ignore';
+        var classToForceClick = 'swiftclick-force';
         var parentEl = el.parentNode;
         var shouldIgnoreElement = false;
         
@@ -215,7 +215,7 @@ function SwiftClick (contextEl)
 
     function hasClass (el, className) {
 
-        var classExists = typeof el.className !== "undefined" ? (" " + el.className + " ").indexOf(" " + className + " ") > -1 : false;
+        var classExists = typeof el.className !== 'undefined' ? (' ' + el.className + ' ').indexOf(' ' + className + ' ') > -1 : false;
 
         return classExists;
     }
@@ -232,9 +232,9 @@ SwiftClick.prototype.addNodeNamesToTrack = function (nodeNamesArray)
 
     for (i; i < length; i++)
     {
-        if (typeof nodeNamesArray[i] !== "string")
+        if (typeof nodeNamesArray[i] !== 'string')
         {
-            throw new TypeError ("all values within the 'nodeNames' array must be of type 'string'");
+            throw new TypeError ('all values within the "nodeNames" array must be of type "string"');
         }
 
         currentNodeName = nodeNamesArray[i].toLowerCase();
@@ -257,7 +257,7 @@ SwiftClick.prototype.useCssParser = function (useParser)
 SwiftClick.attach = function (contextEl)
 {
     // if SwiftClick has already been initialised on this element then return the instance that's already in the Dictionary.
-    if (typeof SwiftClick.swiftDictionary[contextEl] !== "undefined")
+    if (typeof SwiftClick.swiftDictionary[contextEl] !== 'undefined')
     {
         return SwiftClick.swiftDictionary[contextEl];
     }
@@ -267,7 +267,7 @@ SwiftClick.attach = function (contextEl)
 
 
 // check for AMD/Module support, otherwise define SwiftClick as a global variable.
-if (typeof define !== "undefined" && define.amd)
+if (typeof define !== 'undefined' && define.amd)
 {
     // AMD. Register as an anonymous module.
     define (function()
@@ -276,7 +276,7 @@ if (typeof define !== "undefined" && define.amd)
     });
 
 }
-else if (typeof module !== "undefined" && module.exports)
+else if (typeof module !== 'undefined' && module.exports)
 {
     module.exports = SwiftClick;
 }
