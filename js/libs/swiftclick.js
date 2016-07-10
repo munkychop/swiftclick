@@ -16,7 +16,7 @@ function SwiftClick (contextEl)
     {
         elements: {a:'a', div:'div', span:'span', button:'button'},
         minTouchDrift: 4,
-        maxTouchDrift: 30,
+        maxTouchDrift: 16,
         useCssParser: false
     };
 
