@@ -82,6 +82,17 @@ swiftclick.replaceNodeNamesToTrack(["a", "div", "h1"]);
 Doing this will remove all default node names, as well as any that have been added, and replace them with the node names within the array that is passed in, resulting in only the new node names being tracked.
 
 
+### Updating the maximum drift distance
+It is possible to set the maximum pixel distance that a touchmove can travel before SwiftClick no longer considers it a click:
+
+```js
+var swiftclick = SwiftClick.attach(someElement);
+swiftclick.setMaxTouchDrift(10);
+```
+
+The default value is 16 and the minimum value is 4. A value between 10 and 30 is recommended.
+
+
 ### Ignoring swift clicks on specific elements
 
 The parsing of CSS class names is disabled by default to improve performance, so in order to use this feature, it must be explicity switched on:
