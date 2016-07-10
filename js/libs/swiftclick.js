@@ -20,13 +20,13 @@ function SwiftClick (contextEl)
         useCssParser: false
     };
 
-        var _self                           = this;
-        var _swiftContextEl                 = contextEl;
-        var _swiftContextElOriginalClick    = _swiftContextEl.onclick;
-        var _currentlyTrackingTouch         = false;
-        var _touchStartPoint                = {x:0, y:0};
-        var _scrollStartPoint               = {x:0, y:0};
-        var _clickedAlready                 = false;
+    var _self                           = this;
+    var _swiftContextEl                 = contextEl;
+    var _swiftContextElOriginalClick    = _swiftContextEl.onclick;
+    var _currentlyTrackingTouch         = false;
+    var _touchStartPoint                = {x:0, y:0};
+    var _scrollStartPoint               = {x:0, y:0};
+    var _clickedAlready                 = false;
 
 
     // SwiftClick is only initialised if both touch and orientationchange are supported.
