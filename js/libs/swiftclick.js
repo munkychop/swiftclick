@@ -15,6 +15,7 @@ function SwiftClick (contextEl)
     this.options =
     {
         elements: {a:'a', div:'div', span:'span', button:'button'},
+        minTouchDrift: 4,
         maxTouchDrift: 30,
         useCssParser: false
     };
@@ -232,6 +233,11 @@ SwiftClick.prototype.setMaxTouchDrift = function (maxTouchDrift)
     if (typeof maxTouchDrift !== 'number')
     {
         throw new TypeError ('expected "maxTouchDrift" to be of type "number"');
+    }
+
+    if (maxTouchDrift < this.options.minTouchDrift)
+    {
+        maxTouchDrift = this.options.minTouchDrift;
     }
 
     this.options.maxTouchDrift = maxTouchDrift;
