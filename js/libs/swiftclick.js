@@ -227,6 +227,16 @@ function SwiftClick (contextEl)
 
 SwiftClick.swiftDictionary = {};
 
+SwiftClick.prototype.setMaxTouchDrift = function (maxTouchDrift)
+{
+    if (typeof maxTouchDrift !== 'number')
+    {
+        throw new TypeError ('expected "maxTouchDrift" to be of type "number"');
+    }
+
+    this.options.maxTouchDrift = maxTouchDrift;
+};
+
 // add an array of node names (strings) for which swift clicks should be synthesized.
 SwiftClick.prototype.addNodeNamesToTrack = function (nodeNamesArray)
 {
