@@ -13,9 +13,7 @@ module.exports = function (grunt) {
 
     // Project configuration.
     grunt.initConfig({
-
         watch: {
-
             js: {
                 files: [
                     'Gruntfile.js',
@@ -23,15 +21,27 @@ module.exports = function (grunt) {
                     'js/libs/swiftclick.js'
                 ],
 
-                tasks: ['uglify:deploy']
+                tasks: ['deploy']
+            }
+        },
+
+        copy: {
+            deploy: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'js/libs/',
+                        src: ['swiftclick.js'],
+                        dest: 'js/dist/',
+                        filter: 'isFile'
+                    }
+                ]
             }
         },
 
         uglify: {
-
             deploy: {
                 options: {
-
                     compress: true,
 
                     // mangle: Turn on or off mangling
@@ -41,7 +51,7 @@ module.exports = function (grunt) {
                     beautify: false,
 
                     // report: Show file size report
-                    report: 'gzip',
+                    report: 'gzip'
                 },
 
                 src: jsFilesArray,
@@ -50,10 +60,11 @@ module.exports = function (grunt) {
         }
     });
 
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     // A task for deployment
-    grunt.registerTask('deploy', ['uglify:deploy']);
+    grunt.registerTask('deploy', ['copy:deploy', 'uglify:deploy']);
     grunt.registerTask('default', ['deploy']);
 };
