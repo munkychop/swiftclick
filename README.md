@@ -9,7 +9,7 @@ SwiftClick is a library created to eliminate the 300ms click event delay on touc
 
 ## Usage
 
-Firstly, grab either the [minified](https://raw.githubusercontent.com/munkychop/swiftclick/master/js/dist/swiftclick.min.js), or [non-minified](https://raw.githubusercontent.com/munkychop/swiftclick/master/js/libs/swiftclick.js) source from Github.
+Firstly, grab either the [minified](https://raw.githubusercontent.com/munkychop/swiftclick/master/js/dist/swiftclick.min.js), or [non-minified](https://raw.githubusercontent.com/munkychop/swiftclick/master/js/dist/swiftclick.js) source from Github.
 
 Alternatively, if you can use npm with the following command in your command prompt:
 
