@@ -1,4 +1,5 @@
 .npmignore
+.jshintrc
 example/
 src/
 bower.json
