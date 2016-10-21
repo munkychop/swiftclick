@@ -1,7 +1,5 @@
 .npmignore
-css
-js/app
-js/dist
+example/
+src/
 bower.json
 Gruntfile.js
-index.html

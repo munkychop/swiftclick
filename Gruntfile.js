@@ -2,58 +2,50 @@ module.exports = function (grunt) {
 
     'use strict';
 
-    var sourceDir = 'js/';
-    var distDir = 'js/dist/';
+    var jsSrcDir = 'src/';
+    var jsSrcFile = 'swiftclick.js';
+    var jsDistDir = 'dist/';
     var jsDistFile = 'swiftclick.min.js';
+    var jsExampleLibsDir = 'example/js/libs/';
 
-    var jsFilesArray = [sourceDir + 'libs/swiftclick.js'];
-
-    // ====================
-    // ====================
-
-    // Project configuration.
     grunt.initConfig({
 
         watch: {
-
             js: {
-                files: [
-                    'Gruntfile.js',
-                    'js/app/app.js',
-                    'js/libs/swiftclick.js'
-                ],
-
-                tasks: ['uglify:deploy']
+                files: [jsSrcDir + jsSrcFile],
+                tasks: ['dist']
             }
         },
 
         uglify: {
-
-            deploy: {
-                options: {
-
-                    compress: true,
-
-                    // mangle: Turn on or off mangling
-                    mangle: true,
-
-                    // beautify: beautify your code for debugging/troubleshooting purposes
-                    beautify: false,
-
-                    // report: Show file size report
-                    report: 'gzip',
+            options: {
+                compress: {
+                    drop_console: true
                 },
+                mangle: true,
+                beautify: false,
+                preserveComments: false
+            },
+            dist: {
+                src: jsSrcDir + jsSrcFile,
+                dest: jsDistDir + jsDistFile
+            }
+        },
 
-                src: jsFilesArray,
-                dest: distDir + jsDistFile
+        copy : {
+            dist : {
+                src : jsSrcDir + jsSrcFile,
+                dest : jsDistDir + jsSrcFile // copy with unminified file name
+            },
+            example : {
+                src : jsSrcDir + jsSrcFile,
+                dest : jsExampleLibsDir + jsSrcFile // copy with unminified file name
             }
         }
     });
 
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-watch');
+    require('load-grunt-tasks')(grunt, {pattern: ['grunt-*']});
 
-    // A task for deployment
-    grunt.registerTask('deploy', ['uglify:deploy']);
-    grunt.registerTask('default', ['deploy']);
+    grunt.registerTask('default', ['uglify:dist', 'copy', 'watch']);
+    grunt.registerTask('dist', ['uglify:dist', 'copy']);
 };
