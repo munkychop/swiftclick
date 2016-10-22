@@ -9,32 +9,35 @@ SwiftClick is a library created to eliminate the 300ms click event delay on touc
 
 ## Usage
 
-Firstly, grab either the [minified](https://raw.githubusercontent.com/munkychop/swiftclick/master/dist/swiftclick.min.js), or [non-minified](https://raw.githubusercontent.com/munkychop/swiftclick/master/dist/swiftclick.js) source from Github.
-
-Alternatively, if you can use npm with the following command in your command prompt:
+You can install SwiftClick using npm:
 
 ```sh
 npm i swiftclick --save
 ```
 
-Or you can install via Bower instead, if that's your thing:
+You can install via Bower instead, if that's your thing:
 
 ```sh
 bower install swiftclick
 ```
 
+You can also use CDNJS: https://cdnjs.com/libraries/swiftclick
+
+Otherwise, you can grab either the [minified](https://raw.githubusercontent.com/munkychop/swiftclick/master/dist/swiftclick.min.js), or [non-minified](https://raw.githubusercontent.com/munkychop/swiftclick/master/dist/swiftclick.js) source from Github.
 
 ### Include SwiftClick in your application
-```html
-<script type="application/javascript" src="path/to/swiftclick.min.js"></script>
-```
 
 If using CommonJS then simply require SwiftClick as per usual:
 
 ```javascript
-var SwiftClick = require("swiftclick");
+var SwiftClick = require('swiftclick');
 ```
 
+Otherwise, use a script tag:
+
+```html
+<script type="application/javascript" src="path/to/swiftclick.min.js"></script>
+```
 
 ### Setup SwiftClick
 
@@ -68,7 +71,7 @@ If necessary you can make SwiftClick track events originating from additional el
 
 ```js
 var swiftclick = SwiftClick.attach(someElement);
-swiftclick.addNodeNamesToTrack(["p", "h1", "nav"]);
+swiftclick.addNodeNamesToTrack(['p', 'h1', 'nav']);
 ```
 
 
@@ -76,7 +79,7 @@ swiftclick.addNodeNamesToTrack(["p", "h1", "nav"]);
 
 ```js
 var swiftclick = SwiftClick.attach(someElement);
-swiftclick.replaceNodeNamesToTrack(["a", "div", "h1"]);
+swiftclick.replaceNodeNamesToTrack(['a', 'div', 'h1']);
 ```
 
 Doing this will remove all default node names, as well as any that have been added, and replace them with the node names within the array that is passed in, resulting in only the new node names being tracked.
