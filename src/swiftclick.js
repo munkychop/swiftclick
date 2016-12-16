@@ -89,7 +89,9 @@ function SwiftClick (contextEl)
 
         // only add the 'touchend' listener now that we know the element should be tracked.
         targetEl.removeEventListener('touchend', touchEndHandler, false);
+        targetEl.removeEventListener('touchcancel', touchEndHandler, false);
         targetEl.addEventListener('touchend', touchEndHandler, false);
+        targetEl.addEventListener('touchcancel', touchEndHandler, false);
     }
 
     function touchEndHandler (event)
