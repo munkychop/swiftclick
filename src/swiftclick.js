@@ -91,8 +91,8 @@ function SwiftClick (contextEl)
         targetEl.removeEventListener('touchend', touchEndHandler, false);
         targetEl.addEventListener('touchend', touchEndHandler, false);
 
-        targetEl.removeEventListener('touchcancel', touchcancelHandler, false);
-        targetEl.addEventListener('touchcancel', touchcancelHandler, false);
+        targetEl.removeEventListener('touchcancel', touchCancelHandler, false);
+        targetEl.addEventListener('touchcancel', touchCancelHandler, false);
     }
 
     function touchEndHandler (event)
@@ -123,8 +123,8 @@ function SwiftClick (contextEl)
         return false;
     }
 
-    function touchcancelHandler(event) {
-        event.target.removeEventListener('touchcancel', touchcancelHandler, false);
+    function touchCancelHandler(event) {
+        event.target.removeEventListener('touchcancel', touchCancelHandler, false);
 
         _currentlyTrackingTouch = false;
     }
