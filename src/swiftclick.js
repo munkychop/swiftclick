@@ -26,7 +26,6 @@ function SwiftClick (contextEl)
     var _currentlyTrackingTouch         = false;
     var _touchStartPoint                = {x:0, y:0};
     var _scrollStartPoint               = {x:0, y:0};
-    var _clickedAlready                 = false;
 
 
     // SwiftClick is only initialised if both touch and orientationchange are supported.
@@ -45,7 +44,6 @@ function SwiftClick (contextEl)
         }
 
         _swiftContextEl.addEventListener('touchstart', touchStartHandler, false);
-        _swiftContextEl.addEventListener('click', clickHandler, true);
     }
 
     function hijackedSwiftElClickHandler (event)
@@ -74,7 +72,6 @@ function SwiftClick (contextEl)
         // check parents for 'swiftclick-ignore' class name.
         if (_self.options.useCssParser && checkIfElementShouldBeIgnored(targetEl))
         {
-            _clickedAlready = false;
             return true;
         }
 
@@ -114,8 +111,6 @@ function SwiftClick (contextEl)
         event.stopPropagation();
         event.preventDefault();
 
-        _clickedAlready = false;
-
         targetEl.focus();
         synthesizeClickEvent(targetEl, touchend);
 
@@ -127,26 +122,6 @@ function SwiftClick (contextEl)
         event.target.removeEventListener('touchcancel', touchCancelHandler, false);
 
         _currentlyTrackingTouch = false;
-    }
-
-    function clickHandler (event)
-    {
-        var targetEl = event.target;
-        var nodeName = targetEl.nodeName.toLowerCase();
-
-        if (typeof _self.options.elements[nodeName] !== 'undefined')
-        {
-            if (_clickedAlready)
-            {
-                _clickedAlready = false;
-
-                event.stopPropagation();
-                event.preventDefault();
-                return false;
-            }
-
-            _clickedAlready = true;
-        }
     }
 
     function synthesizeClickEvent (el, touchend)
