@@ -1,6 +1,7 @@
 .npmignore
 .jshintrc
+*.map
 example/
 src/
 bower.json
-Gruntfile.js
+webpack.config.js

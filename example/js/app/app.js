@@ -1,28 +1,21 @@
-(function () {
-    'use strict';
+function init () {
+  const swiftclick = SwiftClick.attach(document.body);
+  swiftclick.useCssParser(true);
 
-    var swiftclick = window.SwiftClick.attach(document.body);
-    swiftclick.useCssParser(true);
+  // add regular click listeners to all elements with a class of 'test-element'.
+  const testElements = Array.prototype.slice.call(document.querySelectorAll('.test-element'))
+  testElements.forEach(element => element.addEventListener('click', elementClicked, false));
 
-    // add regular click listeners to all elements with a class of 'test-element'.
-    var testElements = document.getElementsByClassName('test-element'),
-        i = 0,
-        length = testElements.length;
-    
-    for (i; i < length; i++) {
-        testElements[i].addEventListener ('click', elementClicked, false);
-    }
+  // click handler which simply toggles a CSS class on a clicked element.
+  function elementClicked (event) {
+    event.preventDefault();
 
+    console.log('App:: [elementClicked]');
 
-    // regular click handler which simply toggles a CSS class on clicked elements.
-    function elementClicked (event) {
-        event.preventDefault();
+    const clickedElement = event.target;
 
-        console.log('App:: [elementClicked]');
+    clickedElement.classList.toggle('bg-colour-change');
+  }
+}
 
-        var currentElement = event.target;
-
-        currentElement.classList.toggle('bg-colour-change');
-    }
-
-})();
+document.addEventListener('DOMContentLoaded', init);

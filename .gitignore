@@ -1,5 +1,6 @@
 node_modules/
 npm-debug.log
+*.map
 
 .DS_Store
 .DS_Store?

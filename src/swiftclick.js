@@ -294,22 +294,26 @@ SwiftClick.attach = function (contextEl)
     return new SwiftClick(contextEl);
 };
 
+console.log('module:', module);
+console.log('define:', define);
+
+// module.exports = SwiftClick;
 
 // check for AMD/Module support, otherwise define SwiftClick as a global variable.
-if (typeof define !== 'undefined' && define.amd)
-{
-    // AMD. Register as an anonymous module.
-    define (function()
-    {
-        return SwiftClick;
-    });
+// if (typeof define !== 'undefined' && define.amd)
+// {
+//     // AMD. Register as an anonymous module.
+//     define (function()
+//     {
+//         return SwiftClick;
+//     });
 
-}
-else if (typeof module !== 'undefined' && module.exports)
-{
-    module.exports = SwiftClick;
-}
-else
-{
-    window.SwiftClick = SwiftClick;
-}
+// }
+// else if (typeof module !== 'undefined' && module.exports)
+// {
+//     module.exports = SwiftClick;
+// }
+// else
+// {
+//     window.SwiftClick = SwiftClick;
+// }
