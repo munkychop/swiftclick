@@ -10,7 +10,6 @@ const _jsDistDir = 'dist/';
 const _jsFilename = 'swiftclick.js';
 const _jsMinifiedFilename = 'swiftclick.min.js';
 const _jsExampleLibsDir = 'example/js/libs/';
-const _babelConfig = _babel({presets: ['es2015']});
 const _uglifyOptions = {
   compress: {
     drop_console: true
@@ -23,7 +22,15 @@ const _uglifyOptions = {
 _gulp.task('js', () => {
   return _gulp.src(`${_jsSrcDir}${_jsFilename}`)
     .pipe(_sourcemaps.init())
-    .pipe(_babelConfig)
+    .pipe(_babel({presets: ['es2015']}))
+    .on('error', function (error) {
+      console.log('[Compilation Error]');
+      console.log(error.fileName + ( error.loc ? `( ${error.loc.line}, ${error.loc.column} ): ` : ': '));
+      console.log('Babel: ' + error.message + '\n');
+      console.log(error.codeFrame);
+
+      this.emit('end');
+    })
     .pipe(_gulp.dest(_jsDistDir))
     .pipe(_rename(_jsMinifiedFilename))
     .pipe(_uglify(_uglifyOptions))
@@ -33,7 +40,7 @@ _gulp.task('js', () => {
     .pipe(_browserSync.stream({match: '**/*.js'}));
 });
 
-_gulp.task('serve', ['js'], () => {
+_gulp.task('serve', () => {
   _browserSync.init({
     server: {
       baseDir: './example'

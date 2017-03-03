@@ -10,7 +10,7 @@
   },
   "main": "dist/swiftclick.js",
   "scripts": {
-    "start": "gulp serve",
+    "start": "gulp js && gulp serve",
     "js": "gulp js"
   },
   "repository": {
