@@ -18,13 +18,17 @@ function SwiftClick (contextEl) {
     useCssParser: false
   };
 
-  var _self                           = this;
-  var _swiftContextEl                 = contextEl;
-  var _swiftContextElOriginalClick    = _swiftContextEl.onclick;
-  var _currentlyTrackingTouch         = false;
-  var _touchStartPoint                = {x:0, y:0};
-  var _scrollStartPoint               = {x:0, y:0};
-  var _clickedAlready                 = false;
+  const SWIFTCLICK_IGNORE_CLASS_NAME = 'swiftclick-ignore';
+  const SWIFTCLICK_FORCE_CLICK_CLASS_NAME = 'swiftclick-force';
+
+  const _self                           = this;
+  const _swiftContextEl                 = contextEl;
+  const _swiftContextElOriginalClick    = _swiftContextEl.onclick;
+  
+  let _currentlyTrackingTouch         = false;
+  let _touchStartPoint                = {x:0, y:0};
+  let _scrollStartPoint               = {x:0, y:0};
+  let _clickedAlready                 = false;
 
 
   // SwiftClick is only initialised if both touch and orientationchange are supported.
@@ -46,9 +50,9 @@ function SwiftClick (contextEl) {
   }
 
   function touchStartHandler (event) {
-    var targetEl = event.target;
-    var nodeName = targetEl.nodeName.toLowerCase();
-    var touch = event.changedTouches[0];
+    const targetEl = event.target;
+    const nodeName = targetEl.nodeName.toLowerCase();
+    const touch = event.changedTouches[0];
 
     // don't synthesize an event if the node is not an acceptable type (the type isn't in the dictionary).
     if (typeof _self.options.elements[nodeName] === 'undefined') {
@@ -84,8 +88,8 @@ function SwiftClick (contextEl) {
   }
 
   function touchEndHandler (event) {
-    var targetEl = event.target;
-    var touchend = event.changedTouches[0];
+    const targetEl = event.target;
+    const touchend = event.changedTouches[0];
 
     targetEl.removeEventListener('touchend', touchEndHandler, false);
     
@@ -116,8 +120,8 @@ function SwiftClick (contextEl) {
   }
 
   function clickHandler (event) {
-    var targetEl = event.target;
-    var nodeName = targetEl.nodeName.toLowerCase();
+    const targetEl = event.target;
+    const nodeName = targetEl.nodeName.toLowerCase();
 
     if (typeof _self.options.elements[nodeName] !== 'undefined') {
       if (_clickedAlready) {
@@ -133,14 +137,14 @@ function SwiftClick (contextEl) {
   }
 
   function synthesizeClickEvent (el, touchend) {
-    var clickEvent = document.createEvent('MouseEvents');
+    const clickEvent = document.createEvent('MouseEvents');
     clickEvent.initMouseEvent('click', true, true, window, 1, touchend.screenX, touchend.screenY, touchend.clientX, touchend.clientY, false, false, false, false, 0, null);
     
     el.dispatchEvent(clickEvent);
   }
 
   function getScrollPoint () {
-    var scrollPoint = {
+    const scrollPoint = {
       x : window.pageXOffset ||
           document.body.scrollLeft ||
           document.documentElement.scrollLeft ||
@@ -155,18 +159,16 @@ function SwiftClick (contextEl) {
   }
 
   function checkIfElementShouldBeIgnored (el) {
-    var classToIgnore = 'swiftclick-ignore';
-    var classToForceClick = 'swiftclick-force';
-    var parentEl = el.parentNode;
-    var shouldIgnoreElement = false;
+    let parentEl = el.parentNode;
+    let shouldIgnoreElement = false;
     
     // ignore the target el and return early if it has the 'swiftclick-ignore' class.
-    if (hasClass(el, classToIgnore)) {
+    if (hasClass(el, SWIFTCLICK_IGNORE_CLASS_NAME)) {
       return true;
     }
 
     // don't ignore the target el and return early if it has the 'swiftclick-force' class.
-    if (hasClass(el, classToForceClick)) {
+    if (hasClass(el, SWIFTCLICK_FORCE_CLICK_CLASS_NAME)) {
       return shouldIgnoreElement;
     }
 
@@ -177,7 +179,7 @@ function SwiftClick (contextEl) {
 
     // ignore the target el if one of its parents has the 'swiftclick-ignore' class.
     while (parentEl) {
-      if (hasClass(parentEl, classToIgnore)) {
+      if (hasClass(parentEl, SWIFTCLICK_IGNORE_CLASS_NAME)) {
         parentEl = null;
         shouldIgnoreElement = true;
       } else {
@@ -189,8 +191,8 @@ function SwiftClick (contextEl) {
   }
 
   function hasTouchDriftedTooFar (touchend) {
-    var maxDrift = _self.options.maxTouchDrift;
-    var scrollPoint = getScrollPoint();
+    const maxDrift = _self.options.maxTouchDrift;
+    const scrollPoint = getScrollPoint();
 
     return  Math.abs(touchend.pageX - _touchStartPoint.x) > maxDrift ||
             Math.abs(touchend.pageY - _touchStartPoint.y) > maxDrift ||
@@ -199,7 +201,7 @@ function SwiftClick (contextEl) {
   }
 
   function hasClass (el, className) {
-    var classExists = typeof el.className !== 'undefined' ? (' ' + el.className + ' ').indexOf(' ' + className + ' ') > -1 : false;
+    const classExists = typeof el.className !== 'undefined' ? (' ' + el.className + ' ').indexOf(' ' + className + ' ') > -1 : false;
 
     return classExists;
   }
@@ -221,18 +223,14 @@ SwiftClick.prototype.setMaxTouchDrift = function (maxTouchDrift) {
 
 // add an array of node names (strings) for which swift clicks should be synthesized.
 SwiftClick.prototype.addNodeNamesToTrack = function (nodeNamesArray) {
-  var i = 0;
-  var length = nodeNamesArray.length;
-  var currentNodeName;
-
-  for (i; i < length; i++) {
-    if (typeof nodeNamesArray[i] !== 'string') {
+  nodeNamesArray.forEach(nodeName => {
+    if (typeof nodeName !== 'string') {
       throw new TypeError ('all values within the "nodeNames" array must be of type "string"');
     }
 
-    currentNodeName = nodeNamesArray[i].toLowerCase();
+    const currentNodeName = nodeName.toLowerCase();
     this.options.elements[currentNodeName] = currentNodeName;
-  }
+  });
 };
 
 SwiftClick.prototype.replaceNodeNamesToTrack = function (nodeNamesArray) {
@@ -254,13 +252,10 @@ SwiftClick.attach = function (contextEl) {
   return new SwiftClick(contextEl);
 };
 
-
 // check for AMD/Module support, otherwise define SwiftClick as a global variable.
 if (typeof define !== 'undefined' && define.amd) {
   // AMD. Register as an anonymous module.
-  define (function() {
-    return SwiftClick;
-  });
+  define (() => SwiftClick);
 
 } else if (typeof module !== 'undefined' && module.exports) {
   module.exports = SwiftClick;
