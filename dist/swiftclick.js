@@ -49,6 +49,8 @@ function SwiftClick(contextEl) {
   }
 
   function touchStartHandler(event) {
+    console.log('touchStartHandler');
+
     var targetEl = event.target;
     var nodeName = targetEl.nodeName.toLowerCase();
     var touch = event.changedTouches[0];
@@ -87,6 +89,8 @@ function SwiftClick(contextEl) {
   }
 
   function touchEndHandler(event) {
+    console.log('touchEndHandler');
+
     var targetEl = event.target;
     var touchend = event.changedTouches[0];
 
@@ -113,12 +117,16 @@ function SwiftClick(contextEl) {
   }
 
   function touchCancelHandler(event) {
+    console.log('touchCancelHandler');
+
     event.target.removeEventListener('touchcancel', touchCancelHandler, false);
 
     _currentlyTrackingTouch = false;
   }
 
   function clickHandler(event) {
+    console.log('clickHandler');
+
     var targetEl = event.target;
     var nodeName = targetEl.nodeName.toLowerCase();
 
