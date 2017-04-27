@@ -2,7 +2,7 @@
   "name": "swiftclick",
   "title": "SwiftClick",
   "description": "Eliminates the 300ms click event delay on touch devices that support orientation change",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "homepage": "https://github.com/munkychop/swiftclick",
   "author": {
     "name": "Ivan Hayes",
