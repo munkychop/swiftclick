@@ -26,6 +26,7 @@ function SwiftClick(contextEl) {
   var _swiftContextElOriginalClick = _swiftContextEl.onclick;
 
   var _currentlyTrackingTouch = false;
+  var _currentActiveEl = undefined;
   var _touchStartPoint = { x: 0, y: 0 };
   var _scrollStartPoint = { x: 0, y: 0 };
   var _clickedAlready = false;
@@ -67,7 +68,6 @@ function SwiftClick(contextEl) {
 
     // check parents for 'swiftclick-ignore' class name.
     if (_self.options.useCssParser && checkIfElementShouldBeIgnored(targetEl)) {
-      _clickedAlready = false;
       return true;
     }
 
@@ -107,7 +107,7 @@ function SwiftClick(contextEl) {
     event.stopPropagation();
     event.preventDefault();
 
-    _clickedAlready = false;
+    _currentActiveEl = targetEl;
 
     targetEl.focus();
     synthesizeClickEvent(targetEl, touchend);
@@ -125,21 +125,24 @@ function SwiftClick(contextEl) {
   }
 
   function clickHandler(event) {
-    console.log('clickHandler');
+    // console.log('clickHandler');
 
     var targetEl = event.target;
-    var nodeName = targetEl.nodeName.toLowerCase();
-
-    if (typeof _self.options.elements[nodeName] !== 'undefined') {
+    // console.log('targetEl:', targetEl);
+    // console.log('_currentActiveEl:', _currentActiveEl);
+    if (targetEl === _currentActiveEl) {
       if (_clickedAlready) {
         _clickedAlready = false;
+        _currentActiveEl = undefined;
 
+        console.log('cancelling click');
         event.stopPropagation();
         event.preventDefault();
         return false;
+      } else {
+        _clickedAlready = true;
+        console.log('handling click');
       }
-
-      _clickedAlready = true;
     }
   }
 

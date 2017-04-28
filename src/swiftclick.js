@@ -18,17 +18,18 @@ function SwiftClick (contextEl) {
     useCssParser: false
   };
 
-  const SWIFTCLICK_IGNORE_CLASS_NAME = 'swiftclick-ignore';
+  const SWIFTCLICK_IGNORE_CLASS_NAME      = 'swiftclick-ignore';
   const SWIFTCLICK_FORCE_CLICK_CLASS_NAME = 'swiftclick-force';
 
-  const _self                           = this;
-  const _swiftContextEl                 = contextEl;
-  const _swiftContextElOriginalClick    = _swiftContextEl.onclick;
+  const _self                             = this;
+  const _swiftContextEl                   = contextEl;
+  const _swiftContextElOriginalClick      = _swiftContextEl.onclick;
   
-  let _currentlyTrackingTouch         = false;
-  let _touchStartPoint                = {x:0, y:0};
-  let _scrollStartPoint               = {x:0, y:0};
-  let _clickedAlready                 = false;
+  let _currentlyTrackingTouch             = false;
+  let _currentActiveEl                    = undefined;
+  let _touchStartPoint                    = {x:0, y:0};
+  let _scrollStartPoint                   = {x:0, y:0};
+  let _clickedAlready                     = false;
 
 
   // SwiftClick is only initialised if both touch and orientationchange are supported.
@@ -68,7 +69,6 @@ function SwiftClick (contextEl) {
 
     // check parents for 'swiftclick-ignore' class name.
     if (_self.options.useCssParser && checkIfElementShouldBeIgnored(targetEl)) {
-      _clickedAlready = false;
       return true;
     }
 
@@ -108,7 +108,7 @@ function SwiftClick (contextEl) {
     event.stopPropagation();
     event.preventDefault();
 
-    _clickedAlready = false;
+    _currentActiveEl = targetEl;
 
     targetEl.focus();
     synthesizeClickEvent(targetEl, touchend);
@@ -126,21 +126,25 @@ function SwiftClick (contextEl) {
   }
 
   function clickHandler (event) {
-    console.log('clickHandler');
+    // console.log('clickHandler');
     
     const targetEl = event.target;
-    const nodeName = targetEl.nodeName.toLowerCase();
-
-    if (typeof _self.options.elements[nodeName] !== 'undefined') {
+    // console.log('targetEl:', targetEl);
+    // console.log('_currentActiveEl:', _currentActiveEl);
+    if (targetEl === _currentActiveEl) {
       if (_clickedAlready) {
         _clickedAlready = false;
+        _currentActiveEl = undefined;
 
+        console.log('cancelling click');
         event.stopPropagation();
         event.preventDefault();
         return false;
-      }
 
-      _clickedAlready = true;
+      } else {
+        _clickedAlready = true;
+        console.log('handling click');
+      }
     }
   }
 
