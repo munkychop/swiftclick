@@ -32,11 +32,11 @@ _gulp.task('js', () => {
       this.emit('end');
     })
     .pipe(_gulp.dest(_jsDistDir))
+    .pipe(_gulp.dest(_jsExampleLibsDir))
     .pipe(_rename(_jsMinifiedFilename))
     .pipe(_uglify(_uglifyOptions))
     .pipe(_gulp.dest(_jsDistDir))
     .pipe(_sourcemaps.write('.'))
-    .pipe(_gulp.dest(_jsExampleLibsDir))
     .pipe(_browserSync.stream({match: '**/*.js'}));
 });
 
